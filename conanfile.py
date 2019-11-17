@@ -14,6 +14,8 @@ class LibD(ConanFile):
            "url": "auto",
            "revision": "auto"}
 
+    exports_sources = "LICENSE" # to avoid build info bug
+
     def build(self):
         cmake = CMake(self)
         cmake.configure()
