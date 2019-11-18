@@ -15,7 +15,7 @@ docker_runs["conanio-gcc7_temp"] = ["conanio/gcc7", "conanio-gcc7"]
 def organization = "demo-ci-conan"
 def user_channel = "demo/testing"
 def config_url = "https://github.com/demo-ci-conan/settings.git"
-def projects = ["App2/0.0@${user_channel}"]  // TODO: Get list dinamically
+def projects = ["App2/0.0@${user_channel}", ]  // TODO: Get list dinamically
 
 def get_stages(id, docker_image, artifactory_name, artifactory_repo, profile, user_channel, config_url) {
     return {
@@ -146,17 +146,13 @@ node {
                                                      {"name": "sha1", "value": "${sha1}"} \
                                                      ]}"""
                         withCredentials([usernamePassword(credentialsId: 'job-graph', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                            // TODO: FIXME: user pass from credentials
-                            def jenkins_url = "jenkins:8080"
+                            // TODO: FIXME: user pass from credentials 
                             def jenkins_user_token = "admin:1180edb4037ce3fb2dae7260d2cf4ddcb2"
-                            if (env.JENKINS_URL) {
-                                jenkins_url = "${env.JENKINS_URL}"
-                            }
                             if (env.JENKINS_USER_TOKEN) {
                                 jenkins_user_token = "${env.JENKINS_USER_TOKEN}"
                             }
-                            def url = "http://${jenkins_user_token}@${jenkins_url}/job/test_project/build"
-                            sh "curl -v POST ${url} --data-urlencode json='${json}'"
+                            def url = "${env.JENKINS_URL}job/test_project/build"
+                            sh "curl -u ${jenkins_user_token} -v POST ${url} --data-urlencode json='${json}'"
                         }                            
                     }
                 }
