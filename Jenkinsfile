@@ -15,7 +15,7 @@ docker_runs["conanio-gcc7_temp"] = ["conanio/gcc7", "conanio-gcc7"]
 def organization = "demo-ci-conan"
 def user_channel = "demo/testing"
 def config_url = "https://github.com/demo-ci-conan/settings.git"
-def projects = ["App2/0.0@${user_channel}"]  // TODO: Get list dinamically
+def projects = ["App2/0.0@${user_channel}","App3/0.0@${user_channel}"]  // TODO: Get list dinamically
 
 def get_stages(id, docker_image, artifactory_name, artifactory_repo, profile, user_channel, config_url) {
     return {
